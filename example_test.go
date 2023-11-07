@@ -7,11 +7,12 @@ package pathfind_test
 import (
 	"fmt"
 	"image"
+	"testing"
 
 	"github.com/superboySB/pathfind"
 )
 
-func ExamplePathfinder_Path() {
+func TestPathfinder_Path(t *testing.T) {
 	//  (0,0) >---+   +-----------+ (50,0)
 	//        | s |   |   >---+   |
 	//        |   +---+   |   | d |

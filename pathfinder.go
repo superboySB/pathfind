@@ -9,6 +9,7 @@ package pathfind
 import (
 	"image"
 	"math"
+	"sync"
 
 	"github.com/fzipp/geom"
 	"github.com/superboySB/astar"
@@ -131,18 +132,57 @@ func verticesOfType(p poly.Polygon, t vertexType) []image.Point {
 	return vs
 }
 
+// 原有实现
+// func visibilityGraph(ps poly.PolygonSet, points []image.Point) graph[image.Point] {
+// 	vis := make(graph[image.Point])
+// 	for i, a := range points {
+// 		for j, b := range points {
+// 			if i == j {
+// 				continue
+// 			}
+// 			if inLineOfSight(ps, p2v(a), p2v(b)) {
+// 				vis.link(a, b)
+// 			}
+// 		}
+// 	}
+// 	return vis
+// }
+
+// 目前实现
 func visibilityGraph(ps poly.PolygonSet, points []image.Point) graph[image.Point] {
-	vis := make(graph[image.Point])
+	vis := make(graph[image.Point], len(points))
+	var wg sync.WaitGroup
+	var mutex sync.Mutex // 定义互斥锁
+
+	// 根据您的 CPU 逻辑核心数量来设置并发量
+	semaphore := make(chan struct{}, 64)
+
 	for i, a := range points {
-		for j, b := range points {
-			if i == j {
-				continue
+		wg.Add(1)
+		semaphore <- struct{}{}
+		go func(a image.Point, i int) {
+			defer wg.Done()
+			localGraph := make(graph[image.Point], len(points)) // 为每个 goroutine 预分配内存
+			for j, b := range points {
+				if i == j {
+					continue
+				}
+				if inLineOfSight(ps, p2v(a), p2v(b)) {
+					localGraph.link(a, b) // 不需要锁
+				}
 			}
-			if inLineOfSight(ps, p2v(a), p2v(b)) {
-				vis.link(a, b)
+			// 合并局部图到全局图
+			mutex.Lock()
+			for node, neighbours := range localGraph {
+				vis[node] = append(vis[node], neighbours...)
 			}
-		}
+			mutex.Unlock()
+			<-semaphore
+		}(a, i)
 	}
+
+	wg.Wait()
+	close(semaphore)
 	return vis
 }
 
