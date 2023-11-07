@@ -10,9 +10,9 @@ import (
 	"image"
 	"math"
 
-	"github.com/fzipp/astar"
 	"github.com/fzipp/geom"
-	"github.com/fzipp/pathfind/internal/poly"
+	"github.com/superboySB/astar"
+	"github.com/superboySB/pathfind/internal/poly"
 )
 
 // A Pathfinder is created and initialized with a set of polygons via

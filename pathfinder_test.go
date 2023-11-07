@@ -9,7 +9,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/fzipp/pathfind"
+	"github.com/superboySB/pathfind"
 )
 
 // A U-shaped polygon. Origin is at the top-left corner.

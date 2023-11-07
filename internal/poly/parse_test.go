@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/fzipp/pathfind/internal/poly"
+	"github.com/superboySB/pathfind/internal/poly"
 )
 
 func TestParseFloats(t *testing.T) {

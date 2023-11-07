@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"image"
 
-	"github.com/fzipp/pathfind"
+	"github.com/superboySB/pathfind"
 )
 
 func ExamplePathfinder_Path() {

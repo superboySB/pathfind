@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"github.com/fzipp/geom"
-	"github.com/fzipp/pathfind/internal/poly"
+	"github.com/superboySB/pathfind/internal/poly"
 )
 
 func TestParsePolygons(t *testing.T) {

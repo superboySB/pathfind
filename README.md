@@ -80,3 +80,9 @@ Output:
 
 This project is free and open source software licensed under the
 [BSD 3-Clause License](LICENSE).
+
+## 讨论
+用如下方法测试效果
+```sh
+go test -v
+```
