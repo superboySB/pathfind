@@ -155,7 +155,7 @@ func visibilityGraph(ps poly.PolygonSet, points []image.Point) graph[image.Point
 	var mutex sync.Mutex // 定义互斥锁
 
 	// 根据您的 CPU 逻辑核心数量来设置并发量
-	semaphore := make(chan struct{}, 28)
+	semaphore := make(chan struct{}, 16)
 
 	for i, a := range points {
 		wg.Add(1)
